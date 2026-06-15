@@ -1,0 +1,61 @@
+.profile-page {
+  padding: 30px;
+  font-family: Arial, sans-serif;
+}
+
+.profile-title {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.profile-container {
+  display: flex;
+  gap: 20px;
+}
+
+/* LEFT CARD */
+.profile-card {
+  width: 250px;
+  background: linear-gradient(135deg, #4e54c8, #8f94fb);
+  color: white;
+  padding: 20px;
+  border-radius: 15px;
+  text-align: center;
+}
+
+.avatar {
+  font-size: 60px;
+  margin-bottom: 10px;
+}
+
+.role {
+  opacity: 0.8;
+}
+
+.edit-btn {
+  margin-top: 15px;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* RIGHT SIDE */
+.profile-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.info-box {
+  background: #fff;
+  padding: 18px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  width: 100%;
+}
+
+.info-box:hover {
+  transform: translateY(-5px);
+}

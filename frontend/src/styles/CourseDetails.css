@@ -1,0 +1,41 @@
+.course-details {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 30px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.course-details img {
+  width: 100%;
+  border-radius: 15px;
+  margin: 20px 0;
+}
+
+.course-details p {
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.course-details ul {
+  margin-left: 20px;
+  margin-bottom: 30px;
+}
+
+.course-details li {
+  margin-bottom: 10px;
+}
+
+.course-details button {
+  padding: 12px 25px;
+  background: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.course-details button:hover {
+  background: #4338ca;
+}
