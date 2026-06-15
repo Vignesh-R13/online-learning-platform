@@ -10,10 +10,6 @@ function CourseDetails() {
 
   const [course, setCourse] = useState(null);
   
-  useEffect(() => {
-  fetchCourse();
-  }, [fetchCourse]);
- 
   const fetchCourse = async () => {
     try {
       console.log("ID from URL:", id);
