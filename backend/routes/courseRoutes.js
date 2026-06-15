@@ -8,7 +8,7 @@ const {
   deleteCourse
 } = require("../controllers/courseController");
 
-const Course = require("../models/Course");
+const Course = require("../models/course");
 const protect = require("../middleware/authMiddleware");
 const authorizeRoles = require("../middleware/roleMiddleware");
 
