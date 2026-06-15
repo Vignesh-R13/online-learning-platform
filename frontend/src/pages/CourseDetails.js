@@ -1,38 +1,42 @@
 import "../styles/CourseDetails.css";
-import { createOrder, verifyPayment, getCourseById } from "../services/authService";
-import { useEffect, useState } from "react";
+import {
+  createOrder,
+  verifyPayment,
+  getCourseById,
+} from "../services/authService";
+import { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 
 function CourseDetails() {
   const { id } = useParams();
 
-  console.log("Current route param:", id);
-
   const [course, setCourse] = useState(null);
-  
-  const fetchCourse = async () => {
+
+  const fetchCourse = useCallback(async () => {
     try {
-      console.log("ID from URL:", id);
-
       const data = await getCourseById(id);
-
-      console.log("Data received:", data);
-
       setCourse(data);
     } catch (error) {
-       console.error("FETCH ERROR:", error);
+      console.error("FETCH ERROR:", error);
     }
-  };
+  }, [id]);
 
   useEffect(() => {
-    fetchCourse();
-  }, [id]);
+    if (id) fetchCourse();
+  }, [fetchCourse, id]);
 
   const handleBuyCourse = async () => {
     try {
+      if (!course) return;
+
       const order = await createOrder(course.price);
 
       const user = JSON.parse(localStorage.getItem("user"));
+
+      if (!window.Razorpay) {
+        alert("Razorpay SDK not loaded");
+        return;
+      }
 
       const options = {
         key: "rzp_test_SxV0wEfSpQenRU",
@@ -44,34 +48,37 @@ function CourseDetails() {
 
         handler: async function (response) {
           const paymentData = {
-            userId: user.id,
+            userId: user?.id,
             courseId: course._id,
             paymentId: response.razorpay_payment_id,
             orderId: response.razorpay_order_id,
-            amount: course.price
+            amount: course.price,
           };
 
-          const result = await verifyPayment(paymentData);
-
-          alert("🎉 Payment Successful!");
-          console.log(result);
+          try {
+            const result = await verifyPayment(paymentData);
+            console.log(result);
+            alert("🎉 Payment Successful!");
+          } catch (err) {
+            console.error("Payment verification failed:", err);
+            alert("Payment verification failed");
+          }
         },
 
         prefill: {
           name: user?.name,
-          email: user?.email
+          email: user?.email,
         },
 
         theme: {
-          color: "#0f9d58"
-        }
+          color: "#0f9d58",
+        },
       };
 
       const rzp = new window.Razorpay(options);
       rzp.open();
-
     } catch (error) {
-      console.log(error);
+      console.error(error);
       alert("Payment failed");
     }
   };
@@ -82,7 +89,6 @@ function CourseDetails() {
 
   return (
     <div className="course-details">
-
       <h1>{course.title}</h1>
 
       <img
@@ -93,13 +99,11 @@ function CourseDetails() {
       <p>{course.description}</p>
 
       <p>
-        <strong>Instructor:</strong>{" "}
-        {course.instructor?.name}
+        <strong>Instructor:</strong> {course.instructor?.name}
       </p>
 
       <p>
-        <strong>Price:</strong> ₹{course.price}
-      </p>
+        <strong>Price:</strong> ₹{course.price}</p>
 
       <button
         onClick={handleBuyCourse}
@@ -109,12 +113,11 @@ function CourseDetails() {
           color: "white",
           border: "none",
           borderRadius: "5px",
-          cursor: "pointer"
+          cursor: "pointer",
         }}
       >
         Buy Course 💰
       </button>
-
     </div>
   );
 }
