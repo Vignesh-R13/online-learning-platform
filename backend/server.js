@@ -14,12 +14,24 @@ MIDDLEWARES
 =========================
 */
 
-// FIXED CORS (VERY IMPORTANT)
+// ✅ FINAL CORS CONFIG (PRODUCTION READY)
+const allowedOrigins = [
+    "http://localhost:3000",
+    "http://localhost:3001",
+    "https://online-learning-platform-amber.vercel.app"
+];
+
 app.use(cors({
-    origin: [
-        "http://localhost:3000",
-        "http://localhost:3001"
-    ],
+    origin: function (origin, callback) {
+        // allow tools like Postman or server-to-server
+        if (!origin) return callback(null, true);
+
+        if (allowedOrigins.includes(origin)) {
+            return callback(null, true);
+        }
+
+        return callback(new Error("Not allowed by CORS"));
+    },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"]
