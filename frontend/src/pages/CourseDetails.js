@@ -9,11 +9,11 @@ function CourseDetails() {
   console.log("Current route param:", id);
 
   const [course, setCourse] = useState(null);
-
-  useEffect(() => {
-    fetchCourse();
-  }, []);
   
+  useEffect(() => {
+  fetchCourse();
+  }, [fetchCourse]);
+ 
   const fetchCourse = async () => {
     try {
       console.log("ID from URL:", id);
