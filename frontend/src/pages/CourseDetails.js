@@ -24,6 +24,10 @@ function CourseDetails() {
     }
   };
 
+  useEffect(() => {
+    fetchCourse();
+  }, [id]);
+
   const handleBuyCourse = async () => {
     try {
       const order = await createOrder(course.price);
